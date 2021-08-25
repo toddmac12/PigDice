@@ -5,6 +5,7 @@ function Game() {
   this.activeScore = 0;
   this.initialRoll = true;
   this.activePlayer = "player2";
+  this.dice = "";
 }
 
 // true turn value = player 2 --------  flase turn value = player 1
@@ -19,12 +20,13 @@ else{
 this.activeScore += diceValue
 this.winCheck();
 }
+this.dice = diceValue
 console.log(diceValue)
 console.log(this.activeScore)
 };
 
 Game.prototype.changeTurn = function(){
-  if (game.turn === true){
+  if (game.turn){
     this.turn = false
     this.activePlayer = "player2"
   }
@@ -42,6 +44,7 @@ if (this.turn === false){
   this.changeTurn();
   console.log(this.activePlayer)
   return this.score.player1
+  // return not necessary
 } 
 else{
   this.score.player2 += this.activeScore
@@ -65,17 +68,53 @@ Game.prototype.winCheck = function(){
     console.log("game continues")
   }
   }
+// USER INTERFACE LOGIC
+let game = new Game
+
+$(document).ready(function(){
+  $("span#dice-value").val(game.dice)
+  $("span#active-score").text(game.activeScore)
+
+  $("button#roll").click(function(){
+    let dice = game.roll();
+    $("span#dice-value").text(game.dice);
+    $("span#active-score").text(game.activeScore);
+    if (dice === "win"){
+      $("#winScreen").show();
+      $("#game-board").hide();
+      $("span#winnerName").text(game.activePlayer)
+    }
+    else if (game.turn === true){
+      $("player2div").show();
+      $("player1div").hide();
+    }
+    else{
+      $("player2div").hide();
+      $("player1div").show();
+    }
+  })
+
+  $("button#hold").click(function(){
+    game.hold();
+    $("span#dice-value").text(0);
+    $("span#active-score").text(game.activeScore);
+    if (game.turn === true){
+      $("span#player2-score").text(game.score.player2);
+      $("span#player1-score").text(game.score.player1)
+      $("player2div").show();
+      $("player1div").hide();
+    }
+    else{
+      $("span#player1-score").text(game.score.player1)
+      $("span#player2-score").text(game.score.player2);
+      $("player2div").hide();
+      $("player1div").show();
+    }
+  })
+})
 
 
-
-  // game.hold()
-  // if (game.winCheck === "win"){
-  //   //Show winners div
-  //   // populate winners screen with active play's name
-  // }
-// Game.prototype.hold = function(){
   
-// }
 
 
 // function roll() {
