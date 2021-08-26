@@ -10,12 +10,13 @@
   <body>
     <div class="container">
       <h1>Play Pig Dice with your Friends!</h1>
-      <div class="game-board">
+      <h3><span id="active-player"></span> Its your roll!</h3>
+      <div class="game-board" id="game-board">
         <p>Dice value: <span id="dice-value"></span></p>
         <p>Active Score: <span id="active-score"></span></p>
         <hr>
-        <p>Player 1 score: <span id="player1-score"></span></p>
-        <p>Player 2 score: <span id="player2-score"></span></p>
+        <p>Player 1 held points: <span id="player1-held-score"></span><br>total score: <span id="player1-total-score"></span></p>
+        <p>Player 2 held points: <span id="player2-held-score"></span><br>total score: <span id="player2-total-score"></span></p>
         <hr>
       </div>
       <div id="buttons">
@@ -23,7 +24,7 @@
         <button id="hold" class ="btn btn-danger">Hold your Score and Pass</button>
       </div>
       <div id="win-screen">
-        <p>Congratulations <span id="winnerName"></span>, You've won!</p>
+        <p>Congratulations <span id="winnerName"></span>, You've won!<p>
       </div>
     </div>
   </body>

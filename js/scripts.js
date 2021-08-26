@@ -22,9 +22,9 @@ this.activeScore += diceValue
 // this.winCheck();
 this.dice = diceValue
 }
-console.log(diceValue)
-console.log(this.dice)
-console.log(this.activeScore)
+// console.log(diceValue)
+// console.log(this.dice)
+// console.log(this.activeScore)
 };
 
 Game.prototype.changeTurn = function(){
@@ -44,22 +44,22 @@ if (this.turn === false){
   this.score.player1 += this.activeScore
   this.activeScore = 0
   this.changeTurn();
-  console.log(this.activePlayer)
-  return this.score.player1
+  // console.log(this.activePlayer)
+  // return this.score.player1
   // return not necessary
 } 
 else{
   this.score.player2 += this.activeScore
   this.activeScore = 0
   this.changeTurn();
-  console.log(this.activePlayer)
-  return this.score.player2
+  // console.log(this.activePlayer)
+  // return this.score.player2
 }
 
 };
 
 Game.prototype.winCheck = function(){
-  if (this.score[this.activePlayer] + this.activeScore >= 10){
+  if (this.score[this.activePlayer] + this.activeScore >= 50){
     console.log(this.activePlayer + "wins")
     return "win"
   }
@@ -75,15 +75,18 @@ let game = new Game
 $(document).ready(function(){
   $("span#dice-value").text(game.dice)
   $("span#active-score").text(game.activeScore)
+  $("span#active-player").text(game.activePlayer)
 
   $("button#roll").click(function(){
     let dice = game.roll();
     let winCondition = game.winCheck();
     $("span#dice-value").text(game.dice);
     $("span#active-score").text(game.activeScore);
+    // $("span#" + game.activePlayer +"-held-score").val(game.score[game.activePlayer] += game.activeScore);
     if (winCondition === "win"){
       $("div#win-screen").show();
       $("div#game-board").hide();
+      $("div#buttons").hide();
       $("span#winnerName").text(game.activePlayer);
     }
     else {
@@ -96,90 +99,34 @@ $(document).ready(function(){
         $("player1div").show();
       }
   }
+  // $("span#active-player").text(game.activePlayer)
+  console.log(game)
   })
 
   $("button#hold").click(function(){
+    // $("span#" + game.activePlayer +"-total-score").text(game.activeScore += game.score[game.activePlayer] );
+    // $("span#"+ game.activePlayer +"-held-score").text(0)
+    // console.log($("span#"+ game.activePlayer +"-held-score").text())
     game.hold();
     $("span#dice-value").text(0);
     $("span#active-score").text(game.activeScore);
+    console.log(game.turn)
     if (game.turn === true){
-      $("span#player2-score").text(game.score.player2);
-      $("span#player1-score").text(game.score.player1)
+      $("span#player2-held-score").text(0);
+      $("span#player1-held-score").text(0);
+      $("span#player1-total-score").text(game.score.player1);
+      $("span#player2-total-score").text(game.score.player2);
       $("player2div").show();
       $("player1div").hide();
     }
     else{
-      $("span#player1-score").text(game.score.player1)
-      $("span#player2-score").text(game.score.player2);
+      $("span#player2-held-score").text(0);
+      $("span#player1-held-score").text(0);
+      $("span#player1-total-score").text(game.score.player1);
+      $("span#player2-total-score").text(game.score.player2);
       $("player2div").hide();
       $("player1div").show();
     }
+    $("span#active-player").text(game.activePlayer)
   })
 })
-
-
-  
-
-
-// function roll() {
-//   let turn;
-
-//   if (game.turn === true) 
-// {
-//     // Game.actionScore =game.score[turn];
-//     {
-//       turn = "player2";
-//     }
-// else {
-//       turn = "player1";
-//     }
-
-//     if (game.initialRoll==true){
-  
-//     game.actionScore = game.score[turn]; 
-//   }
-//   game.actionScore[turn]=score(game.score{turn],game.initialRoll);
-// if (game.score[turn] >=100
-
-
-//   // Game.prototype.Turn = function() {
-//   if (game.turn === false) {
-//     game.turn = true
-//     game.Activeplayer = "player2"
-//   }
-//   else {
-//     game.turn = false;
-//     game.activePlayer = "player1"
-//   }
-// }
-
-  // when a player hits the hold button
-// Game.prototype.Score(){
-//   this.Turn()
-// takes action score and adds it to player score
-//switch turns
-
-// Game.prototype.Roll(){
-//   game.turn
-  // math of determining a roll
-  //return value between 1-6
-
-
-
-
-
-
-
-
-
-
-// Game.prototype.turnCounter(function(){
-//   i = this.turn
-//   this.turn ++
-//   if (i % 2 === 0){
-//     set to player 2
-//   }
-//   else{
-//     set to player 1
-//   }
-// })
