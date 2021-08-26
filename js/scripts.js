@@ -119,4 +119,11 @@ $(document).ready(function () {
     }
     $("span#active-player").text(game.activePlayer)
   })
+
+  $("button#playAgain").click(function(){
+    let game = new Game
+    $("div#game-board").show();
+    $("div#win-screen").hide();
+    $("div#buttons").show();
+  })
 })
