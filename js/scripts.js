@@ -82,6 +82,7 @@ $(document).ready(function () {
     else if (dice === 1){
       game.changeTurn();
       $("span#active-player").text(game.activePlayer)
+      $("span#" + game.activePlayer + "-held-score").text(0);
     }
     else {
       if (game.turn === true) {
