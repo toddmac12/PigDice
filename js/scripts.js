@@ -5,7 +5,7 @@ function Game() {
   this.activeScore = 0;
   this.initialRoll = true;
   this.activePlayer = "player2";
-  this.dice = "";
+  this.dice = "Roll the dice!";
 }
 
 // true turn value = player 2 --------  flase turn value = player 1
@@ -15,26 +15,28 @@ Game.prototype.roll = function(){
 let diceValue = Math.floor((Math.random()*6 ) + 1) 
 if (diceValue === 1){
   this.activeScore = 0
+  this.dice = diceValue
 }
 else{
 this.activeScore += diceValue
-this.winCheck();
-}
+// this.winCheck();
 this.dice = diceValue
+}
 console.log(diceValue)
+console.log(this.dice)
 console.log(this.activeScore)
 };
 
 Game.prototype.changeTurn = function(){
   if (game.turn){
     this.turn = false
-    this.activePlayer = "player2"
+    this.activePlayer = "player1"
   }
   else{
     this.turn = true
-    this.activePlayer = "player1"
+    this.activePlayer = "player2"
   }
-  console.log(game.turn)
+  // console.log(game.turn)
 };
 
 Game.prototype.hold = function(){
@@ -48,50 +50,52 @@ if (this.turn === false){
 } 
 else{
   this.score.player2 += this.activeScore
-this.activeScore = 0
-this.changeTurn();
-console.log(this.activePlayer)
-return this.score.player2
+  this.activeScore = 0
+  this.changeTurn();
+  console.log(this.activePlayer)
+  return this.score.player2
 }
+
 };
 
 Game.prototype.winCheck = function(){
-  if (this.score.player1 + this.activeScore >= 10){
-    console.log("player 1 wins")
-    return "win"
-  }
-  else if(this.score.player2 + this.activeScore >=10){
-    console.log("player 2 wins")
+  if (this.score[this.activePlayer] + this.activeScore >= 10){
+    console.log(this.activePlayer + "wins")
     return "win"
   }
   else{
     console.log("game continues")
+    return "continue"
   }
   }
+
 // USER INTERFACE LOGIC
 let game = new Game
 
 $(document).ready(function(){
-  $("span#dice-value").val(game.dice)
+  $("span#dice-value").text(game.dice)
   $("span#active-score").text(game.activeScore)
 
   $("button#roll").click(function(){
     let dice = game.roll();
+    let winCondition = game.winCheck();
     $("span#dice-value").text(game.dice);
     $("span#active-score").text(game.activeScore);
-    if (dice === "win"){
-      $("#winScreen").show();
-      $("#game-board").hide();
-      $("span#winnerName").text(game.activePlayer)
+    if (winCondition === "win"){
+      $("div#win-screen").show();
+      $("div#game-board").hide();
+      $("span#winnerName").text(game.activePlayer);
     }
-    else if (game.turn === true){
-      $("player2div").show();
-      $("player1div").hide();
-    }
-    else{
-      $("player2div").hide();
-      $("player1div").show();
-    }
+    else {
+      if (game.turn === true){
+        $("player2div").show();
+        $("player1div").hide();
+      }
+      else{
+        $("player2div").hide();
+        $("player1div").show();
+      }
+  }
   })
 
   $("button#hold").click(function(){
