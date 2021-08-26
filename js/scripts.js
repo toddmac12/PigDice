@@ -67,7 +67,8 @@ $(document).ready(function () {
   $("span#active-player").text(game.activePlayer)
 
   $("button#roll").click(function () {
-    let dice = game.roll();
+    game.roll()
+    let dice = game.dice
     let winCondition = game.winCheck();
     $("span#dice-value").text(game.dice);
     $("span#active-score").text(game.activeScore);
@@ -77,6 +78,10 @@ $(document).ready(function () {
       $("div#game-board").hide();
       $("div#buttons").hide();
       $("span#winnerName").text(game.activePlayer);
+    }
+    else if (dice === 1){
+      game.changeTurn();
+      $("span#active-player").text(game.activePlayer)
     }
     else {
       if (game.turn === true) {
