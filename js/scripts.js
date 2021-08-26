@@ -82,7 +82,7 @@ $(document).ready(function(){
     let winCondition = game.winCheck();
     $("span#dice-value").text(game.dice);
     $("span#active-score").text(game.activeScore);
-    // $("span#" + game.activePlayer +"-held-score").val(game.score[game.activePlayer] += game.activeScore);
+    $("span#" + game.activePlayer +"-held-score").text(game.score[game.activePlayer] + game.activeScore);
     if (winCondition === "win"){
       $("div#win-screen").show();
       $("div#game-board").hide();
