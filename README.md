@@ -28,7 +28,7 @@ In bash at a folder of your choice, type the following:
 $ git clone https://github.com
 $ code .
 Use a program such as VSCode to view and run the program.
-Alternatively, see links below to open in your browser using the Reach this webpage through the browser of your choice using the Active gh-pages link
+Alternatively, see links below to open in your browser using the Reach this webpage through the browser of your choice using the Active gh-pages link https://toddmac12.github.io/PigDice/
 
 Recommend using the most up to date version of your browser.
 
