@@ -1,40 +1,63 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-  <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
-  <link href="css/styles.css" rel="stylesheet" type="text/css">
-  <script src="js/jquery-3.6.0.js"></script>
-  <script src="js/scripts.js"></script>
-  <title>Pig Dice</title>
+  <title>Pig Dice Game</title>
+  <style>
+    /* CSS styling for the game */
+    .player-panel {
+      float: left;
+      width: 50%;
+      padding: 5px;
+    }
+
+    .player-name {
+      font-size: 20px;
+      margin: 5px 0;
+    }
+
+    .player-score, .player-current-score {
+      font-size: 50px;
+      margin: 5px 0;
+    }
+
+    .active {
+      background-color: #f7f7f7;
+    }
+
+    .winner {
+      background-color: #fffecc;
+    }
+
+    .btn {
+      font-size: 20px;
+      padding: 10px 20px;
+      margin: 10px 5px;
+      cursor: pointer;
+    }
+
+    .dice {
+      width: 100px;
+      display: none;
+    }
+  </style>
 </head>
-
 <body>
-  <div class="container">
-    <h1>Play Pig Dice with your Friends!</h1>
-
-    <div class="game-board" id="game-board">
-      <h3><span id="active-player"></span> It's your roll!</h3>
-      <p>Dice value: <span id="dice-value"></span></p>
-      <p>Active Score: <span id="active-score"></span></p>
-      <hr>
-      <p>Player 1 held points: <span id="player1-held-score"></span><br>Total score: <span
-          id="player1-total-score"></span></p>
-      <p>Player 2 held points: <span id="player2-held-score"></span><br>Total score: <span
-          id="player2-total-score"></span></p>
-      <hr>
-    </div>
-    <div id="buttons">
-      <button id="roll" class="btn btn-primary">Roll Dice</button>
-      <button id="hold" class="btn btn-danger">Hold your Score and Pass</button>
-    </div>
-    <div id="win-screen">
-      <p>Congratulations <span id="winnerName"></span>, You've won!</p>
-      <p>
-        <button id="playAgain" class="btn btn-danger">Play Again!</button>
-      </p>
-    </div>
+  <div class="player-panel" id="player-0-panel">
+    <div class="player-name" id="name-0">Player 1</div>
+    <div class="player-score">Score: <span id="score-0">0</span></div>
+    <div class="player-current-box">Current: <span id="current-0">0</span></div>
   </div>
-</body>
+  <div class="player-panel" id="player-1-panel">
+    <div class="player-name" id="name-1">Player 2</div>
+    <div class="player-score">Score: <span id="score-1">0</span></div>
+    <div class="player-current-box">Current: <span id="current-1">0</span></div>
+  </div>
+  <div style="clear:both;"></div>
+  <img src="dice-1.png" alt="Dice" class="dice">
+  <button class="btn" id="btn-new">New Game</button>
+  <button class="btn" id="btn-roll">Roll Dice</button>
+  <button class="btn" id="btn-hold">Hold</button>
 
+  <script src="script.js"></script>
+</body>
 </html>
