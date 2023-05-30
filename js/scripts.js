@@ -1,129 +1,78 @@
-// Business Logic
-function Game() {
-  this.score = { "player1": 0, "player2": 0 };
-  this.turn = true;
-  this.activeScore = 0;
-  this.initialRoll = true;
-  this.activePlayer = "player2";
-  this.dice = "Roll the dice!";
+// Function to get a random number between 1 and 6
+function rollDice() {
+  return Math.floor(Math.random() * 6) + 1;
 }
 
-// true turn value = player 2 --------  flase turn value = player 1
+// Function to switch the active player
+function switchPlayer() {
+  activePlayer = activePlayer === 0 ? 1 : 0;
+  document.getElementById('player-0-panel').classList.toggle('active');
+  document.getElementById('player-1-panel').classList.toggle('active');
+}
 
-Game.prototype.roll = function () {
-  let diceValue = Math.floor((Math.random() * 6) + 1)
-  if (diceValue === 1) {
-    this.activeScore = 0
-    this.dice = diceValue
-  }
-  else {
-    this.activeScore += diceValue
-    this.dice = diceValue
-  }
-};
-
-Game.prototype.changeTurn = function () {
-  if (game.turn) {
-    this.turn = false
-    this.activePlayer = "player1"
-  }
-  else {
-    this.turn = true
-    this.activePlayer = "player2"
-  }
-};
-
-Game.prototype.hold = function () {
-  if (this.turn === false) {
-    this.score.player1 += this.activeScore
-    this.activeScore = 0
-    this.changeTurn();
-  }
-  else {
-    this.score.player2 += this.activeScore
-    this.activeScore = 0
-    this.changeTurn();
-  }
-
-};
-
-Game.prototype.winCheck = function () {
-  if (this.score[this.activePlayer] + this.activeScore >= 50) {
-    console.log(this.activePlayer + "wins")
-    return "win"
-  }
-  else {
-    console.log("game continues")
-    return "continue"
+// Function to update the round score and check if the current player wins
+function updateRoundScore() {
+  if (dice !== 1) {
+    roundScore += dice;
+    document.getElementById('current-' + activePlayer).textContent = roundScore;
+  } else {
+    roundScore = 0;
+    document.getElementById('current-' + activePlayer).textContent = roundScore;
+    switchPlayer();
   }
 }
 
-// USER INTERFACE LOGIC
-let game = new Game
+// Function to hold the current player's score
+function hold() {
+  scores[activePlayer] += roundScore;
+  document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
+  if (scores[activePlayer] >= 100) {
+    document.getElementById('name-' + activePlayer).textContent = 'Winner!';
+    document.getElementById('player-' + activePlayer + '-panel').classList.add('winner');
+    document.getElementById('player-' + activePlayer + '-panel').classList.remove('active');
+    document.getElementById('btn-roll').disabled = true;
+    document.getElementById('btn-hold').disabled = true;
+  } else {
+    switchPlayer();
+  }
+  roundScore = 0;
+  document.getElementById('current-' + activePlayer).textContent = roundScore;
+}
 
-$(document).ready(function () {
-  $("span#dice-value").text(game.dice)
-  $("span#active-score").text(game.activeScore)
-  $("span#active-player").text(game.activePlayer)
+// Function to initialize the game
+function init() {
+  scores = [0, 0];
+  roundScore = 0;
+  activePlayer = 0;
+  document.getElementById('score-0').textContent = '0';
+  document.getElementById('score-1').textContent = '0';
+  document.getElementById('current-0').textContent = '0';
+  document.getElementById('current-1').textContent = '0';
+  document.getElementById('name-0').textContent = 'Player 1';
+  document.getElementById('name-1').textContent = 'Player 2';
+  document.getElementById('player-0-panel').classList.remove('winner');
+  document.getElementById('player-1-panel').classList.remove('winner');
+  document.getElementById('player-0-panel').classList.remove('active');
+  document.getElementById('player-1-panel').classList.remove('active');
+  document.getElementById('player-0-panel').classList.add('active');
+  document.getElementById('btn-roll').disabled = false;
+  document.getElementById('btn-hold').disabled = false;
+}
 
-  $("button#roll").click(function () {
-    game.roll()
-    let dice = game.dice
-    let winCondition = game.winCheck();
-    $("span#dice-value").text(game.dice);
-    $("span#active-score").text(game.activeScore);
-    $("span#" + game.activePlayer + "-held-score").text(game.score[game.activePlayer] + game.activeScore);
-    if (winCondition === "win") {
-      $("div#win-screen").show();
-      $("div#game-board").hide();
-      $("div#buttons").hide();
-      $("span#winnerName").text(game.activePlayer);
-    }
-    else if (dice === 1){
-      game.changeTurn();
-      $("span#active-player").text(game.activePlayer)
-      $("span#" + game.activePlayer + "-held-score").text(0);
-    }
-    else {
-      if (game.turn === true) {
-        $("player2div").show();
-        $("player1div").hide();
-      }
-      else {
-        $("player2div").hide();
-        $("player1div").show();
-      }
-    }
-  })
+// Event listener for the roll button
+document.getElementById('btn-roll').addEventListener('click', function() {
+  dice = rollDice();
+  var diceDOM = document.querySelector('.dice');
+  diceDOM.style.display = 'block';
+  diceDOM.src = 'dice-' + dice + '.png';
+  updateRoundScore();
+});
 
-  $("button#hold").click(function () {
-    game.hold();
-    $("span#dice-value").text(0);
-    $("span#active-score").text(game.activeScore);
-    console.log(game.turn)
-    if (game.turn === true) {
-      $("span#player2-held-score").text(0);
-      $("span#player1-held-score").text(0);
-      $("span#player1-total-score").text(game.score.player1);
-      $("span#player2-total-score").text(game.score.player2);
-      $("player2div").show();
-      $("player1div").hide();
-    }
-    else {
-      $("span#player2-held-score").text(0);
-      $("span#player1-held-score").text(0);
-      $("span#player1-total-score").text(game.score.player1);
-      $("span#player2-total-score").text(game.score.player2);
-      $("player2div").hide();
-      $("player1div").show();
-    }
-    $("span#active-player").text(game.activePlayer)
-  })
+// Event listener for the hold button
+document.getElementById('btn-hold').addEventListener('click', hold);
 
-  $("button#playAgain").click(function(){
-    let game = new Game
-    $("div#game-board").show();
-    $("div#win-screen").hide();
-    $("div#buttons").show();
-  })
-})
+// Event listener for the new game button
+document.getElementById('btn-new').addEventListener('click', init);
+
+// Initialize the game
+init();
